@@ -28,15 +28,15 @@ void makeCheckImage(void)
           c /= checkImageHeight;  // 0 - 3
           c *= (255 / (NB_BAND - 1));
 
-         checkImage[i][j][0] = c;
-         checkImage[i][j][1] = 0;
+         checkImage[i][j][0] = c; // RED
+         checkImage[i][j][1] = 0; // GREEN
 
           c = NB_BAND * j;
           c /= checkImageWidth;  // 0 - 3
           c *= (255 / (NB_BAND - 1));
 
-         checkImage[i][j][2] = c;
-         checkImage[i][j][3] = 255;
+         checkImage[i][j][2] = c; // BLUE
+         checkImage[i][j][3] = 255; // ALPHA
       }
    }
 }
@@ -59,6 +59,8 @@ void init(void)
    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, checkImageWidth, 
                 checkImageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 
                 checkImage);
+
+   glShadeModel(GL_SMOOTH);
 }
 
 void keyboard(unsigned char key, int x, int y)
@@ -82,7 +84,6 @@ void display(void)
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    /*
     glColor3f(0.0, 1.0, 0.0);
     glBegin(GL_QUADS);
         glVertex3f(10.0, 10.0, 0.0);
@@ -90,24 +91,24 @@ void display(void)
         glVertex3f(WINDOW_WIDTH - 10, WINDOW_HEIGHT - 10, 0.0);
         glVertex3f(WINDOW_WIDTH - 10, 10.0, 0.0);
     glEnd();
-    */
 
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texName);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE); // use color from texture
 
     //glColor3f(1.0, 1.0, 1.0);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0, 0.0);
-        glVertex3f(10.0, 10.0, 0.0);
+        glVertex3f(10.0, 10.0, 0.0); // bottom left
 
         glTexCoord2f(0.0, 1.0);
-        glVertex3f(10.0, WINDOW_HEIGHT - 10, 0.0);
+        glVertex3f(10.0, WINDOW_HEIGHT - 10, 0.0); // top left
 
         glTexCoord2f(1.0, 1.0);
-        glVertex3f(WINDOW_WIDTH - 10, WINDOW_HEIGHT - 10, 0.0);
+        glVertex3f(WINDOW_WIDTH - 10, WINDOW_HEIGHT - 10, 0.0); // top right
 
         glTexCoord2f(1.0, 0.0);
-        glVertex3f(WINDOW_WIDTH - 10, 10.0, 0.0);
+        glVertex3f(WINDOW_WIDTH - 10, 10.0, 0.0);  // bottom right
     glEnd();
     glDisable(GL_TEXTURE_2D);
 
