@@ -23,29 +23,38 @@ void keyboard(unsigned char key, int x, int y)
   }
 }
 
-void displayMe(void)
+void display(void)
 {
-    printf("displayMe\n");
-    glClearColor (0.0, 0.0, 0.0, 1.0);
-    glClear (GL_COLOR_BUFFER_BIT);
+    static int d = 0;
+    printf("display %d\n", d++);
 
+    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glColor3f(0.0, 1.0, 0.0);
+    glBegin(GL_POLYGON);
+        glVertex3f(10.0, 10.0, 0.0);
+        glVertex3f(10.0, WINDOW_HEIGHT - 10, 0.0);
+        glVertex3f(WINDOW_WIDTH - 10, WINDOW_HEIGHT - 10, 0.0);
+        glVertex3f(WINDOW_WIDTH - 10, 10.0, 0.0);
+    glEnd();
+
+    glutSwapBuffers();
+}
+
+void reshape(int w, int h)
+{
+    static int r = 0;
+    printf("reshape %d\n", r++);
+
+    glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0.0, WINDOW_WIDTH, 0.0, WINDOW_HEIGHT, -1.0, 1.0);
-    glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    glColor3f (0.0, 1.0, 0.0);
-    glBegin(GL_POLYGON);
-        glVertex3f (10.0, 10.0, 0.0);
-        glVertex3f (10.0, WINDOW_HEIGHT - 10, 0.0);
-        glVertex3f (WINDOW_WIDTH - 10, WINDOW_HEIGHT - 10, 0.0);
-        glVertex3f (WINDOW_WIDTH - 10, 10.0, 0.0);
-    glEnd();
-
-    glFlush();
 }
 
 int main(int argc, char** argv)
@@ -53,14 +62,15 @@ int main(int argc, char** argv)
     printf("Open GL Test\n");
 
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 
     glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     glutInitWindowPosition(0, 0);
     glutCreateWindow("OpenGL");
 
-    glutDisplayFunc(displayMe);
-    glutKeyboardFunc(&keyboard);
+    glutDisplayFunc(display);
+    glutReshapeFunc(reshape); 
+    glutKeyboardFunc(keyboard);
 
     glutMainLoop();
 
