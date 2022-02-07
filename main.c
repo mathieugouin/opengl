@@ -7,14 +7,46 @@
 //  gcc main.c -lglut -lGL && ./a.out
 
 #define WINDOW_WIDTH 300
-#define WINDOW_HEIGHT 300
+#define WINDOW_HEIGHT 400
+
+void keyboard(unsigned char key, int x, int y)
+{
+  switch (key)
+  {
+    /* Exit on escape key press */
+    case '\x1B':
+    {
+      exit(EXIT_SUCCESS);
+      break;
+    }
+  }
+}
 
 void displayMe(void)
 {
-    glClearColor (0.0, 0.0, 0.0, 0.0);
+    printf("displayMe\n");
+    glClearColor (0.0, 0.0, 0.0, 1.0);
     glClear (GL_COLOR_BUFFER_BIT);
-    glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
+
+    glMatrixMode(GL_PROJECTION);  
+    glLoadIdentity();
+
+    glMatrixMode(GL_MODELVIEW);
+
+
+    //glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
     //glOrtho(0.0, WINDOW_WIDTH, 0.0, WINDOW_HEIGHT, -1.0, 1.0);
+    glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+    /*
+    glColor3f (0.0, 1.0, 0.0);
+    glBegin(GL_POLYGON);
+        glVertex3f (0.0, 0.0, 0.0);
+        glVertex3f (0.0, 0.0, 0.0);
+        glVertex3f (0.0, 0.0, 0.0);
+        glVertex3f (0.0, 0.0, 0.0);
+    glEnd();
+    */
 
     glColor3f (0.0, 0.0, 1.0);
     glBegin(GL_POLYGON);
@@ -37,7 +69,10 @@ int main(int argc, char** argv)
     glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     glutInitWindowPosition(100, 100);
     glutCreateWindow("OpenGL");
+
     glutDisplayFunc(displayMe);
+    glutKeyboardFunc(&keyboard);
+
     glutMainLoop();
 
     return EXIT_SUCCESS;
