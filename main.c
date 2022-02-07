@@ -11,10 +11,12 @@
 #define WINDOW_HEIGHT 800
 
 /*  Create checkerboard texture  */
-#define checkImageWidth 64
-#define checkImageHeight 64
+#define checkImageWidth     300
+#define checkImageHeight    400
 static GLubyte checkImage[checkImageHeight][checkImageWidth][4];
 static GLuint texName;
+
+#define NB_BAND 4
 
 void makeCheckImage(void)
 {
@@ -22,11 +24,19 @@ void makeCheckImage(void)
     
    for (i = 0; i < checkImageHeight; i++) {
       for (j = 0; j < checkImageWidth; j++) {
-         c = ((((i&0x8)==0)^((j&0x8))==0))*255;
-         checkImage[i][j][0] = (GLubyte) c;
-         checkImage[i][j][1] = (GLubyte) c;
-         checkImage[i][j][2] = (GLubyte) c;
-         checkImage[i][j][3] = (GLubyte) 255;
+          c = NB_BAND * i;
+          c /= checkImageHeight;  // 0 - 3
+          c *= (255 / (NB_BAND - 1));
+
+         checkImage[i][j][0] = c;
+         checkImage[i][j][1] = 0;
+
+          c = NB_BAND * j;
+          c /= checkImageWidth;  // 0 - 3
+          c *= (255 / (NB_BAND - 1));
+
+         checkImage[i][j][2] = c;
+         checkImage[i][j][3] = 255;
       }
    }
 }
@@ -72,10 +82,20 @@ void display(void)
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    /*
+    glColor3f(0.0, 1.0, 0.0);
+    glBegin(GL_QUADS);
+        glVertex3f(10.0, 10.0, 0.0);
+        glVertex3f(10.0, WINDOW_HEIGHT - 10, 0.0);
+        glVertex3f(WINDOW_WIDTH - 10, WINDOW_HEIGHT - 10, 0.0);
+        glVertex3f(WINDOW_WIDTH - 10, 10.0, 0.0);
+    glEnd();
+    */
+
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texName);
 
-    //glColor3f(0.0, 1.0, 0.0);
+    //glColor3f(1.0, 1.0, 1.0);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0, 0.0);
         glVertex3f(10.0, 10.0, 0.0);
