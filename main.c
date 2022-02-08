@@ -5,7 +5,7 @@
 #include <GL/glut.h>
 
 //Compile & run with:
-//  gcc main.c -lglut -lGL && ./a.out
+//  gcc -Wall main.c -lglut -lGL && ./a.out
 
 #define WINDOW_WIDTH 600
 #define WINDOW_HEIGHT 800
