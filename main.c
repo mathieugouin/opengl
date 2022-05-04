@@ -124,7 +124,6 @@ void reshape(int w, int h)
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
 }
 
 int main(int argc, char** argv)
