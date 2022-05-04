@@ -105,9 +105,9 @@ void display(void)
     glVertex3f(10.0, WINDOW_HEIGHT - 10, 0.0); // top left
     glTexCoord2f(1.0, 0.0);
     glVertex3f(WINDOW_WIDTH - 10, WINDOW_HEIGHT - 10, 0.0); // top right
-    glTexCoord2f(1.0, 0.8);  // <<<<  TEST with non full texture
+    glTexCoord2f(1.0, 1.0);
     glVertex3f(WINDOW_WIDTH - 10, 10.0, 0.0);  // bottom right
-    glTexCoord2f(0.0, 0.8);  // <<<<  TEST with non full texture
+    glTexCoord2f(0.0, 1.0);
     glVertex3f(10.0, 10.0, 0.0); // bottom left
     glEnd();
     glDisable(GL_TEXTURE_2D);
