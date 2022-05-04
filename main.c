@@ -20,25 +20,25 @@ static GLuint texName;
 
 void makeCheckImage(void)
 {
-   int i, j, c;
+    int i, j, c;
     
-   for (i = 0; i < checkImageHeight; i++) {
-      for (j = 0; j < checkImageWidth; j++) {
-          c = NB_BAND * i;
-          c /= checkImageHeight;  // 0 - 3
-          c *= (255 / (NB_BAND - 1));
+    for (i = 0; i < checkImageHeight; i++) {
+        for (j = 0; j < checkImageWidth; j++) {
+            c = NB_BAND * i;
+            c /= checkImageHeight;  // 0 - 3
+            c *= (255 / (NB_BAND - 1));
 
-         checkImage[i][j][0] = c; // RED
-         checkImage[i][j][1] = 0; // GREEN
+            checkImage[i][j][0] = c; // RED
+            checkImage[i][j][1] = 0; // GREEN
 
-          c = NB_BAND * j;
-          c /= checkImageWidth;  // 0 - 3
-          c *= (255 / (NB_BAND - 1));
+            c = NB_BAND * j;
+            c /= checkImageWidth;  // 0 - 3
+            c *= (255 / (NB_BAND - 1));
 
-         checkImage[i][j][2] = c; // BLUE
-         checkImage[i][j][3] = 255; // ALPHA
-      }
-   }
+            checkImage[i][j][2] = c; // BLUE
+            checkImage[i][j][3] = 255; // ALPHA
+        }
+    }
 }
 
 void init(void)
