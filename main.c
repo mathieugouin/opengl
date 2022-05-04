@@ -72,7 +72,7 @@ void keyboard(unsigned char key, int x, int y)
     {
         /* Exit on escape key press */
         case '\x1B':
-            {
+        {
             exit(EXIT_SUCCESS);
             break;
         }
