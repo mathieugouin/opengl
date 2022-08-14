@@ -1,3 +1,5 @@
 # opengl
 Open GL tests
-Test commit
+
+# Setup
+Refer to configure script
