@@ -135,7 +135,7 @@ void reshape(int w, int h)
 
 int main(int argc, char** argv)
 {
-    printf("Open GL Test\n");
+    printf("Open GL Test: %s\n", argv[0]);
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
