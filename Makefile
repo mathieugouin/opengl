@@ -11,5 +11,8 @@ all: $(EXE)
 check:
 	ls -l $(EXE)
 
+run:
+	./$(EXE)
+
 clean:
 	rm -f *.out
