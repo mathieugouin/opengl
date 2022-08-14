@@ -28,8 +28,8 @@ void makeCheckImage(void)
           c /= checkImageHeight;  // 0 - 3
           c *= (255 / (NB_BAND - 1));
 
-         checkImage[i][j][0] = c; // RED
-         checkImage[i][j][1] = 0; // GREEN
+          checkImage[i][j][0] = c; // RED
+          checkImage[i][j][1] = 0; // GREEN
 
           c = NB_BAND * j;
           c /= checkImageWidth;  // 0 - 3
@@ -84,6 +84,7 @@ void display(void)
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    // Green square
     glColor3f(0.0, 1.0, 0.0);
     glBegin(GL_QUADS);
         glVertex3f(10.0, 10.0, 0.0);
@@ -92,11 +93,13 @@ void display(void)
         glVertex3f(WINDOW_WIDTH - 10, 10.0, 0.0);
     glEnd();
 
+#if 1
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texName);
+
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE); // use color from texture
 
-    //glColor3f(1.0, 1.0, 1.0);
+    glColor3f(0.0, 1.0, 1.0);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0, 0.0);
         glVertex3f(10.0, WINDOW_HEIGHT - 10, 0.0); // top left
@@ -108,6 +111,7 @@ void display(void)
         glVertex3f(10.0, 10.0, 0.0); // bottom left
     glEnd();
     glDisable(GL_TEXTURE_2D);
+#endif
 
     glutSwapBuffers();
 }
@@ -124,7 +128,6 @@ void reshape(int w, int h)
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
 }
 
 int main(int argc, char** argv)
