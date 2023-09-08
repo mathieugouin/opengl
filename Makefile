@@ -3,7 +3,7 @@
 
 EXE = opengl.out
 
-opengl.out: main.c
+$(EXE): main.c
 	gcc -o $(EXE) -Wall main.c -lglut -lGL
 
 all: $(EXE)
