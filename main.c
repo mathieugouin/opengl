@@ -68,6 +68,8 @@ void init(void)
 
 void keyboard(unsigned char key, int x, int y)
 {
+    printf("keyboard, key=0x%02d\n", (int)key);
+
     switch (key)
     {
         /* Exit on escape key press */
