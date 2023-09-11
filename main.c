@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
 
 #include <GL/gl.h>
 #include <GL/glut.h>
@@ -81,14 +83,19 @@ void keyboard(unsigned char key, int x, int y)
     }
 }
 
-void display(void)
+float rand_range(float min, float max)
 {
-    static int d = 0;
-    printf("display %d\n", d++);
+    int r;
+    float x;
+    r = rand();      // Returns a pseudo-random integer between 0 and RAND_MAX.
+    x = (float)r / RAND_MAX;
+    x *= (max - min);
+    x += min;
+    return x;
+}
 
-    glClearColor(0.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-
+void draw_square(void)
+{
     // Green square
     glColor3f(0.0, 1.0, 0.0);
     glBegin(GL_QUADS);
@@ -97,8 +104,29 @@ void display(void)
     glVertex3f(WINDOW_WIDTH - 10, WINDOW_HEIGHT - 10, 0.0);
     glVertex3f(WINDOW_WIDTH - 10, 10.0, 0.0);
     glEnd();
+}
 
-#if 1
+void draw_points(void)
+{
+    int i;
+
+    glBegin(GL_POINTS);
+
+    for (i = 0; i < 1000000; i++)
+    {
+        glColor3f(
+                rand_range(0, 1),
+                rand_range(0, 1),
+                rand_range(0, 1)
+                );
+        glVertex3f(rand_range(0, WINDOW_WIDTH), rand_range(0, WINDOW_HEIGHT), 0.0);
+    }
+
+    glEnd();
+}
+
+void draw_texture(void)
+{
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texName);
 
@@ -116,7 +144,19 @@ void display(void)
     glVertex3f(10.0, 10.0, 0.0); // bottom left
     glEnd();
     glDisable(GL_TEXTURE_2D);
-#endif
+}
+
+void display(void)
+{
+    static int d = 0;
+    printf("display %d\n", d++);
+
+    glClearColor(0.0, 0.0, 0.0, 1.0); // black
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    //draw_square();
+    draw_points();
+    //draw_texture();
 
     glutSwapBuffers();
 }
@@ -135,9 +175,25 @@ void reshape(int w, int h)
     glLoadIdentity();
 }
 
+void idle_callback(void)
+{
+    static int i = 0;
+    printf("idle_callback %d\n", i++);
+}
+
+void timer_callback(int value)
+{
+    static int c = 0;
+    glutTimerFunc(1000, timer_callback, 99);
+    printf("timer_callback value=%d, count=%d\n", value, c++);
+    glutPostRedisplay();
+}
+
 int main(int argc, char** argv)
 {
     printf("Open GL Test: %s\n", argv[0]);
+
+    srand(time(NULL));   // Initialization, should only be called once.
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
@@ -151,6 +207,8 @@ int main(int argc, char** argv)
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
+    //glutIdleFunc(idle_callback);
+    glutTimerFunc(1000, timer_callback, 99);
 
     glutMainLoop();
 
